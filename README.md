@@ -1,122 +1,75 @@
-# Spanish Word Embeddings
+# Mini-workshop: Representaciones vectoriales de palabras basadas en redes neuronales
 
-Below you find links to Spanish word embeddings computed with different methods and from different corpora. Whenever it is possible, a description of the parameters used to compute the embeddings is included, together with simple statistics of the vectors, vocabulary, and description of the corpus from which the embeddings were computed. Direct links to the embeddings are provided, so please refer to the original sources for proper citation (also see [References](#references)). An example of the use of some of these embeddings can be found [here](examples/Ejemplo_WordVectors.md) or in this [tutorial](https://github.com/mquezada/starsconf2018-word-embeddings) (both in Spanish).
+Esta página describe los requisitos y los enlaces de descarga para el ["mini-workshop"](https://starsconf2018a.sched.com/event/Hr8L/mini-workshop-representaciones-vectoriales-de-palabras-basadas-en-redes-neuronales) sobre representaciones vectoriales de palabras basadas en redes neuronales que se llevará a cabo en la [Starsconf](https://www.starsconf.com/) 2018.
 
-Summary (and links) for the embeddings in this page:
+**Si asistirás al taller, te recomendamos tener listos los requisitos y descargar los datos que se muestran abajo, ya que en el lugar del evento no habrá conexión a internet.**
 
-|   |Corpus     |Size |Algorithm  |#vectors  |vec-dim   |Credits    |
-|---|-----------|----:|-----------|---------:|---------:|-----------|
-|[1](#fasttext-embeddings-from-suc)|Spanish Unannotated Corpora|2.6B|FastText|1,313,423|300|[José Cañete](https://github.com/josecannete)|
-|[2](#fasttext-embeddings-from-sbwc)|Spanish Billion Word Corpus|1.4B|FastText|855,380|300|[Jorge Pérez](https://github.com/jorgeperezrojas)|
-|[3](#glove-embeddings-from-sbwc)|Spanish Billion Word Corpus|1.4B|Glove|855,380|300|[Jorge Pérez](https://github.com/jorgeperezrojas)|
-|[4](#word2vec-embeddings-from-sbwc)|Spanish Billion Word Corpus|1.4B|Word2Vec|1,000,653|300|[Cristian Cardellino](https://github.com/crscardellino)|
-|[5](#fasttext-embeddings-from-spanish-wikipedia)|Spanish Wikipedia|???|FastText|985,667|300|[FastText team](https://github.com/facebookresearch/fastText)|
+## Nuevo: Código y Presentación
 
+**Ya está disponible el código del taller.** Después de que sigas las instrucciones para descargar los datos podrás ejecutar el mismo código que vimos en el taller. También está disponible la presentaciónn que usamos. Si no quieres/puedes instalar lo necesario, puedes ejecutar todo directamente desde Colab.
 
-## FastText embeddings from SUC
+- [Presentación](https://docs.google.com/presentation/d/12VDHEnamY2TiF5aZ17ngRU4Ifn4j3YV_Y7BVtZYLooM/edit?usp=sharing)
+- [Notebook de jupyter](https://github.com/mquezada/starsconf2018-word-embeddings/blob/master/code/Workshop.ipynb)
+- [Notebook de Colab](https://colab.research.google.com/drive/1l3Ozf2E1J7Vqh64iewKF9QGUdno-gPG-)
 
-#### Embeddings
-Links to the embeddings (#dimensions=300, #vectors=1,313,423):
-- [Vector format (.vec)](https://zenodo.org/record/3234051/files/embeddings-l-model.vec?download=1) (3.4 GB) 
-- [Binary format (.bin)](https://zenodo.org/record/3234051/files/embeddings-l-model.bin?download=1) (5.6 GB)
+## Requisitos
 
-More vectors with different dimensiones (10, 30, 100, and 300) can be found [here](emb-from-suc.md)
+- Python 3.x
+- gensim
+- numpy
+- scikit-learn
+- Jupyter Notebook
 
-#### Algorithm
-- Implementation: [FastText](https://github.com/facebookresearch/fastText) with Skipgram
-- Parameters: 
-    - min subword-ngram = 3 
-    - max subword-ngram = 6
-    - minCount = 5
-    - epochs = 20
-    - dim = 300
-    - all other parameters set as default
-     
-#### Corpus
-- [Spanish Unannotated Corpora](https://github.com/josecannete/spanish-corpora)
-- Corpus Size: 3 billion words
-- Post processing: Explained in [Embeddings](https://github.com/BotCenter/spanishWordEmbeddings) and [Corpora](https://github.com/josecannete/spanish-corpora) repos, that include tokenization, lowercase, removed listings and urls.
+Una forma sencilla de cumplir con estos requisitos es instalando [Anaconda](https://www.anaconda.com/download/) 
+o [Miniconda](https://conda.io/miniconda.html) (Miniconda es mucho más liviano).
+Verifica tener el `$PATH` correcto, y luego instala las dependencias usando `conda`:
 
-## FastText embeddings from SBWC
+```
+conda install gensim jupyter ipython numpy scikit-learn
+```
 
-#### Embeddings
-Links to the embeddings (#dimensions=300, #vectors=855,380): 
-- [Vector format (.vec.gz)](http://dcc.uchile.cl/~jperez/word-embeddings/fasttext-sbwc.vec.gz) (802 MB) 
-- [Binary format (.bin)](http://dcc.uchile.cl/~jperez/word-embeddings/fasttext-sbwc.bin) (4.2 GB)
+**Si no tienes Python, puedes usar Colaboratory de Google, accediendo al [siguiente notebook](https://colab.research.google.com/drive/1l3Ozf2E1J7Vqh64iewKF9QGUdno-gPG-) y creando una copia en tu cuenta de Google:**
 
-#### Algorithm
-- Implementation: [FastText](https://github.com/facebookresearch/fastText) with Skipgram
-- Parameters: 
-    - min subword-ngram = 3 
-    - max subword-ngram = 6
-    - minCount = 5
-    - epochs = 20
-    - dim = 300
-    - all other parameters set as default
-     
-#### Corpus
-- [Spanish Billion Word Corpus](http://crscardellino.github.io/SBWCE/)
-- Corpus Size: 1.4 billion words
-- Post processing: Besides the post processing of the raw corpus explained in the [SBWCE page](http://crscardellino.github.io/SBWCE/) that included deletion of punctuation, numbers, etc., the following processing was applied:
-    - Words were converted to lower case letters
-    - Every sequence of the 'DIGITO' keyword was replaced by (a single) '0'
-    - All words of more than 3 characteres plus a '0' were ommitted (example: 'padre0')
+## Embeddings
 
-## GloVe embeddings from SBWC
+Los siguientes son *word embeddings* de palabras en español [1] computados con [fastText](https://github.com/facebookresearch/fastText). Hay tres archivos de distintos tamaños. Para el workshop basta que descargues uno de ellos (dependiendo del espacio que quieras usar y la cantidad de RAM que tengas para poder cargarlos en tu computador después). 
 
-#### Embeddings
-Links to the embeddings (#dimensions=300, #vectors=855,380): 
-- [Vector format (.vec.gz)](http://dcc.uchile.cl/~jperez/word-embeddings/glove-sbwc.i25.vec.gz) (906 MB) 
-- [Binary format (.bin)](http://dcc.uchile.cl/~jperez/word-embeddings/glove-sbwc.i25.bin) (3.9 GB)
+- 100K vectores (94 MB): [http://dcc.uchile.cl/~jperez/word-embeddings/fasttext-sbwc.100k.vec.gz](http://dcc.uchile.cl/~jperez/word-embeddings/fasttext-sbwc.100k.vec.gz) 
+- 300K vectores (281 MB): [http://dcc.uchile.cl/~jperez/word-embeddings/fasttext-sbwc.300k.vec.gz](http://dcc.uchile.cl/~jperez/word-embeddings/fasttext-sbwc.300k.vec.gz) 
+- 855K vectores (801 MB): [http://dcc.uchile.cl/~jperez/word-embeddings/fasttext-sbwc.vec.gz](http://dcc.uchile.cl/~jperez/word-embeddings/fasttext-sbwc.vec.gz) 
 
-#### Algorithm
-- Implementation: [GloVe](https://github.com/stanfordnlp/GloVe)
-- Parameters: 
-    - vector-size = 300
-    - iter = 25
-    - min-count = 5
-    - all other parameters set as default
+## Probar que todo funcione 👌
 
-#### Corpus
-- [Spanish Billion Word Corpus](http://crscardellino.github.io/SBWCE/) (see above)
+Descomprime uno de los archivos, por ejemplo, usando `gzip`:
 
-## Word2Vec embeddings from SBWC
+```
+gzip -d fasttext-sbwc.100k.vec.gz
+``` 
 
-#### Embeddings
-Links to the embeddings (#dimensions=300, #vectors=1,000,653) 
-- [Vector format (.txt.bz2)](http://cs.famaf.unc.edu.ar/~ccardellino/SBWCE/SBW-vectors-300-min5.txt.bz2) 
-- [Binary format (.bin.gz)](http://cs.famaf.unc.edu.ar/~ccardellino/SBWCE/SBW-vectors-300-min5.bin.gz) 
+Ejecuta el siguiente código en python que carga los vectores y lista las diez palabras más similares a la palabra dada:
 
-#### Algorithm
-- Implementation: [Word2Vec with Skipgram by GenSim](https://radimrehurek.com/gensim/models/word2vec.html) 
-- Parameters: For details on parameters please refer to the [SBWCE page](http://crscardellino.github.io/SBWCE/)
-     
-#### Corpus
-- [Spanish Billion Word Corpus](http://crscardellino.github.io/SBWCE/) 
-- Corpus Size: 1.4 billion words
+```
+from gensim.models import KeyedVectors
+import logging
 
+logging.basicConfig(format='%(asctime)s : %(message)s', level=logging.INFO)
 
-## FastText embeddings from Spanish Wikipedia 
+vectors = KeyedVectors.load_word2vec_format('fasttext-sbwc.100k.vec')
+print(vectors.most_similar(['adiós']))
+```
 
-#### Embeddings
-Links to the embeddings (#dimensions=300, #vectors=985,667): 
-- [Vector format (.vec)](https://dl.fbaipublicfiles.com/fasttext/vectors-wiki/wiki.es.vec) (2.4 GB) 
-- [Binary plus vector format (.zip)](https://dl.fbaipublicfiles.com/fasttext/vectors-wiki/wiki.es.zip) (5.4 GB)
+El output debe verse como lo siguiente:
 
-#### Algorithm
-- Implementation: [FastText](https://github.com/facebookresearch/fastText) with Skipgram
-- Parameters: FastText default parameters
-     
-#### Corpus
-- [Wikipedia Spanish Dump](https://archive.org/details/eswiki-20150105)
+```
+[('despedida', 0.691421627998352), ('despedirse', 0.6398125290870667), ('suspiro', 0.5772554874420166), ('despide', 0.5664263963699341), ('despedirme', 0.5651067495346069), ('querida', 0.5462957620620728), ('beso', 0.5451434850692749), ('llora', 0.5426937937736511), ('despedimos', 0.5414513945579529), ('despidieron', 0.5407767295837402)]
+``` 
 
+Si es así, todo bien. Si no, puedes abrir un issue y trataremos de ayudarte.
 
+## Contacto
 
-## References
+Escríbenos a mq@botlab.cl o a jp@botlab.cl si tienes preguntas.
 
-- FastText embeddings from SUC: Word embeddings were computed by [José Cañete](https://github.com/josecannete) at [BotCenter](https://github.com/BotCenter). You can use these vectors as you wish under the MIT license. Please refer to [BotCenter Embeddings repo](https://github.com/BotCenter/spanishWordEmbeddings) for further discussion. You may also want to cite the FastText paper [Enriching Word Vectors with Subword Information](https://arxiv.org/abs/1607.04606).
-- FastText embeddings from SBWC: Word embeddings were computed by [Jorge Pérez](https://github.com/jorgeperezrojas). You can use these vectors as you wish under the CC-BY-4.0 license. You may also want to cite the FastText paper [Enriching Word Vectors with Subword Information](https://arxiv.org/abs/1607.04606) and the [Spanish Billion Word Corpus project](http://crscardellino.github.io/SBWCE/). 
-- GloVe embeddings from SBWC: Word embeddings were computed by [Jorge Pérez](https://github.com/jorgeperezrojas). You can use these vectors as you wish under the CC-BY-4.0 license. You may also want to cite the GloVe paper [GloVe: Global Vectors for Word Representation](https://nlp.stanford.edu/pubs/glove.pdf) and the [Spanish Billion Word Corpus project](http://crscardellino.github.io/SBWCE/).
-- FastText embeddings from Spanish Wikipedia: Word embeddings were computed by [FastText team](https://github.com/facebookresearch/fastText).
-Please refer to [FastText Pre-trained Vectors page](https://github.com/facebookresearch/fastText/blob/master/docs/pretrained-vectors.md) if you want to use these vectors.
-- Word2Vec embeddings from SBWC: Word embeddings were computed by [Cristian Cardellino](https://github.com/crscardellino). Please refer to the [SBWCE page](http://crscardellino.github.io/SBWCE/) if you want to use these vectors.
+## Referencias
+
+[1] Word embeddings de palabras en español: [https://github.com/uchile-nlp/spanish-word-embeddings](https://github.com/uchile-nlp/spanish-word-embeddings)
